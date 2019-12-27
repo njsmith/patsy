@@ -58,8 +58,22 @@ matrix:
       - PYTHON_VERSION=2.7
     - env:
       - PYTHON_VERSION=3.4
-    - env:
+    - arch: arm64
+      env:
       - PYTHON_VERSION=3.5
+      before_install:
+      - wget -q "https://github.com/Archiconda/build-tools/releases/download/0.2.3/Archiconda3-0.2.3-Linux-aarch64.sh" -O archiconda.sh
+      - chmod +x archiconda.sh
+      - bash miniconda.sh -b -p $HOME/miniconda
+      - export PATH="$HOME/miniconda/bin:$PATH"
+      - hash -r
+      - conda config --set always_yes yes --set changeps1 no
+      - conda update -q conda
+      - conda info -a
+      - export PKGS="numpy scipy coverage nose pip"
+      - if [ "$PANDAS_VERSION_STR" != "NONE" ]; then export PKGS="${PKGS} pandas${PANDAS_VERSION_STR}"; fi
+      - conda create -q -n testenv python=$PYTHON_VERSION ${PKGS}
+      - source activate testenv
     - arch: arm64
       env:
       - PYTHON_VERSION=3.6
