@@ -97,7 +97,7 @@ before_install:
 
 install:
   - python setup.py sdist
-  - pip install dist/*
+  - sudo pip install dist/*
 script:
   # We change directories to make sure that python won't find the copy
   # of patsy in the source directory.
