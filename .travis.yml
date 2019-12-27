@@ -47,6 +47,7 @@ matrix:
       install: 
       - python --version
       - python setup.py sdist
+      - conda install pip 
       - pip install -e .
     
 # This disables sudo, but makes builds start much faster
