@@ -47,6 +47,7 @@ matrix:
       install: 
       - python --version
       - python setup.py sdist
+      - pip install -e .
     
 # This disables sudo, but makes builds start much faster
 # See http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
