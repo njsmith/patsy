@@ -48,7 +48,7 @@ matrix:
       - python --version
       - python setup.py sdist
       - conda install pip 
-      - pip install -e .
+      - python setup.py install 
     
 # This disables sudo, but makes builds start much faster
 # See http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
