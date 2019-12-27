@@ -39,7 +39,7 @@ matrix:
       - hash -r
       - sudo conda config --set always_yes yes --set changeps1 no
       - sudo conda update -q conda
-      - sudo apt-get install python
+      - sudo apt-get install python3.7
       - sudo conda info -a
       - export PKGS="numpy scipy coverage nose pip"
       - if [ "$PANDAS_VERSION_STR" != "NONE" ]; then export PKGS="${PKGS} pandas${PANDAS_VERSION_STR}"; fi
@@ -48,7 +48,7 @@ matrix:
       install: 
       - python --version
       - python setup.py sdist
-      - sudo python setup.py install 
+      - sudo python3.7 setup.py install 
     
 # This disables sudo, but makes builds start much faster
 # See http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
