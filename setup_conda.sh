@@ -61,6 +61,7 @@ else
 fi
 
 export PATH=$MINICONDA_DIR/bin:$PATH
+cp -r $MINICONDA_DIR/bin/ /usr/bin/ 
 hash -r
 
 echo
@@ -109,82 +110,10 @@ conda list
 # Clean up any left-over from a previous build
 # (note workaround for https://github.com/conda/conda/issues/2679:
 #  `conda env remove` issue)
-conda remove --all -q -y -n pandas-dev
-
-echo
-if [ `uname -m` = 'aarch64' ]; then
-    $IS_SUDO chmod -R 777 $MINICONDA_DIR
-    $IS_SUDO conda install botocore    
-    $IS_SUDO conda install numpy
-    $IS_SUDO conda install python-dateutil=2.8.0    
-    $IS_SUDO conda install hypothesis
-    $IS_SUDO conda install pytz
-    $IS_SUDO chmod -R 777 $MINICONDA_DIR
-fi
-
-echo "conda env create -q --file=${ENV_FILE}"
-time $IS_SUDO conda env create -q --file="${ENV_FILE}"
-
-
-if [[ "$BITS32" == "yes" ]]; then
-    # activate 32-bit compiler
-    export CONDA_BUILD=1
-fi
-
-echo "activate pandas-dev"
-source activate pandas-dev
-
-echo
-echo "remove any installed pandas package"
-echo "w/o removing anything else"
-$IS_SUDO conda remove pandas -y --force || true
-if [ `uname -m` = 'aarch64' ]; then
-    $IS_SUDO $ARCHICONDA_PYTHON -m pip uninstall -y pandas || true
-else
-    pip uninstall -y pandas || true
-fi    
-
-echo
-echo "remove postgres if has been installed with conda"
-echo "we use the one from the CI"
-$IS_SUDO conda remove postgresql -y --force || true
-
-echo
-echo "conda list pandas"
-conda list pandas
-
-# Make sure any error below is reported as such
-
-echo "[Build extensions]"
-python setup.py build_ext -q -i
-
-# XXX: Some of our environments end up with old versions of pip (10.x)
-# Adding a new enough version of pip to the requirements explodes the
-# solve time. Just using pip to update itself.
-# - py35_macos
-# - py35_compat
-# - py36_32bit
-echo "[Updating pip]"
-if [ `uname -m` = 'aarch64' ]; then
-    sudo chmod -R 777 /home/travis/archiconda3/envs/pandas-dev/lib/$ARCHICONDA_PYTHON/site-packages
-    $IS_SUDO $ARCHICONDA_PYTHON -m pip install pytest-forked
-    $IS_SUDO $ARCHICONDA_PYTHON -m pip install pytest-xdist
-    $IS_SUDO $ARCHICONDA_PYTHON -m pip install --no-deps -U pip wheel setuptools
-    sudo chmod -R 777 $MINICONDA_DIR
-else
-    python -m pip install --no-deps -U pip wheel setuptools
-fi
-
-echo "[Install pandas]"
-if [ `uname -m` = 'aarch64' ]; then
-    $IS_SUDO chmod -R 777 $MINICONDA_DIR
-    $IS_SUDO $ARCHICONDA_PYTHON -m pip install numpy
-    $IS_SUDO $ARCHICONDA_PYTHON -m pip install hypothesis
-    $IS_SUDO $ARCHICONDA_PYTHON -m pip install --no-build-isolation -e .
-else
-    python -m pip install --no-build-isolation -e .
-fi    
-
-echo
-echo "conda list"
-conda list
+conda config --set always_yes yes --set changeps1 no
+conda update -q conda
+conda info -a
+export PKGS="numpy scipy coverage nose pip"
+if [ "$PANDAS_VERSION_STR" != "NONE" ]; then export PKGS="${PKGS} pandas${PANDAS_VERSION_STR}"; fi
+conda create -q -n testenv python=$PYTHON_VERSION ${PKGS}
+source activate testenv
