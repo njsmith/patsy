@@ -28,7 +28,6 @@ matrix:
     # libfortran=1.0 is needed to work around a bug in anaconda
     # (https://github.com/pydata/patsy/pull/83#issuecomment-206895923)
     - arch: arm64
-      dist: bionic
       env:
       - PYTHON_VERSION=3.5
       before_install:
@@ -48,7 +47,6 @@ matrix:
       install: 
       - python --version
       - python setup.py sdist
-      - python -m pip install dist/*
     
 # This disables sudo, but makes builds start much faster
 # See http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
