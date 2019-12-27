@@ -61,6 +61,7 @@ else
 fi
 
 export PATH=$MINICONDA_DIR/bin:$PATH
+hash -r
 
 echo
 echo "which conda"
