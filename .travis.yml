@@ -64,7 +64,7 @@ matrix:
       before_install:
       - wget -q "https://github.com/Archiconda/build-tools/releases/download/0.2.3/Archiconda3-0.2.3-Linux-aarch64.sh" -O archiconda.sh
       - chmod +x archiconda.sh
-      - bash miniconda.sh -b -p $HOME/miniconda
+      - bash archiconda.sh -b -p $HOME/miniconda
       - export PATH="$HOME/miniconda/bin:$PATH"
       - hash -r
       - conda config --set always_yes yes --set changeps1 no
