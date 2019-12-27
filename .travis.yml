@@ -39,6 +39,7 @@ matrix:
       - hash -r
       - sudo conda config --set always_yes yes --set changeps1 no
       - sudo conda update -q conda
+      - sudo apt-get install python
       - sudo conda info -a
       - export PKGS="numpy scipy coverage nose pip"
       - if [ "$PANDAS_VERSION_STR" != "NONE" ]; then export PKGS="${PKGS} pandas${PANDAS_VERSION_STR}"; fi
