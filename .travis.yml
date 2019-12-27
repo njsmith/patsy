@@ -44,6 +44,9 @@ matrix:
       - if [ "$PANDAS_VERSION_STR" != "NONE" ]; then export PKGS="${PKGS} pandas${PANDAS_VERSION_STR}"; fi
       - sudo conda create -q -n testenv python=3.7 ${PKGS}
       - source activate testenv
+      install: 
+      - python setup.py sdist
+      - sudo pip install dist/*
     
 # This disables sudo, but makes builds start much faster
 # See http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
