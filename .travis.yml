@@ -30,7 +30,7 @@ matrix:
     - arch: arm64
       dist: xenial
       env:
-      - PYTHON_VERSION=3.5
+      - PYTHON_VERSION=3.7
       before_install:
       - wget -q "https://github.com/Archiconda/build-tools/releases/download/0.2.3/Archiconda3-0.2.3-Linux-aarch64.sh" -O archiconda.sh
       - chmod +x archiconda.sh
@@ -40,7 +40,8 @@ matrix:
       - hash -r
       - sudo conda config --set always_yes yes --set changeps1 no
       - sudo conda update -q conda
-      - sudo apt-get install python3.7
+      - sudo apt-get install python3
+      - sudo apt-get install python3-pip
       - sudo conda info -a
       - export PKGS="numpy scipy coverage nose pip"
       - if [ "$PANDAS_VERSION_STR" != "NONE" ]; then export PKGS="${PKGS} pandas${PANDAS_VERSION_STR}"; fi
