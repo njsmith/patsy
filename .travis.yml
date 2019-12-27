@@ -103,20 +103,6 @@ matrix:
 # This disables sudo, but makes builds start much faster
 # See http://blog.travis-ci.com/2014-12-17-faster-builds-with-container-based-infrastructure/
 sudo: false
-before_install:
-  # Work around terrible pathological behaviour in OpenBLAS multithreading, that causes execution time to blow up from 3 minutes to 18 minutes, apparently in SVD on smallish matrices
-  - export OMP_NUM_THREADS=1
-  - sudo chmod  a+x setup_conda.sh
-  - ./setup_conda.sh
-  -  conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  - conda info -a
-  - export PKGS="numpy scipy coverage nose pip"
-  - if [ "$PANDAS_VERSION_STR" != "NONE" ]; then export PKGS="${PKGS} pandas${PANDAS_VERSION_STR}"; fi
-  - conda create -q -n testenv python=$PYTHON_VERSION ${PKGS}
-  - source activate testenv
-  # See: http://conda.pydata.org/docs/travis.html
-
 install:
   - python setup.py sdist
   - pip install dist/*
