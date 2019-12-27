@@ -1,5 +1,4 @@
-arch: 
-    
+ 
 language: minimal
 matrix:
   include:
