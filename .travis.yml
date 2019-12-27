@@ -45,6 +45,7 @@ sudo: false
 before_install:
   # Work around terrible pathological behaviour in OpenBLAS multithreading, that causes execution time to blow up from 3 minutes to 18 minutes, apparently in SVD on smallish matrices
   - export OMP_NUM_THREADS=1
+  - sudo chmod  a+x setup_conda.sh
   - ./setup_conda.sh
   # See: http://conda.pydata.org/docs/travis.html
   - conda config --set always_yes yes --set changeps1 no
