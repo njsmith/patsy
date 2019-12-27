@@ -119,7 +119,7 @@ before_install:
 
 install:
   - python setup.py sdist
-  - sudo pip install dist/*
+  - pip install dist/*
  
 script:
   # We change directories to make sure that python won't find the copy
