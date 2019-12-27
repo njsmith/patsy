@@ -28,6 +28,7 @@ matrix:
     # libfortran=1.0 is needed to work around a bug in anaconda
     # (https://github.com/pydata/patsy/pull/83#issuecomment-206895923)
     - arch: arm64
+      dist: bionic
       env:
       - PYTHON_VERSION=3.5
       before_install:
